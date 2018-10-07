@@ -127,14 +127,19 @@ synchroniserSurServeurNTP () {
         # Et ainsi conserver l'heure après un reboot, et ce y compris après ré-installation de l'OS.
         sudo hwclock --systohc >> $NOMFICHIERLOG
         
-        echo " Vérification du statut du service ntp après re-démarrage du service NTPD : "
-        sudo systemctl start ntpd && sudo systemctl daemon-reload && sudo systemctl restart ntpd && sudo systemctl status ntpd >> $NOMFICHIERLOG
+        echo " Vérification du statut du service ntp après re-démarrage du service NTPD : " >> $NOMFICHIERLOG
+        sudo systemctl start ntpd && sudo systemctl restart ntpd && sudo systemctl status ntpd >> $NOMFICHIERLOG
         
         echo " Vérification de la liste des serveurs NTP de référence du système : "
+        echo " Vérification de la liste des serveurs NTP de référence du système : " >> $NOMFICHIERLOG
+        sudo ntpq -p
         sudo ntpq -p >> $NOMFICHIERLOG
+        sudo ntptrace
         sudo ntptrace >> $NOMFICHIERLOG
         
+        echo " Date après la re-synchronisation [Serveur NTP=$SERVEUR_NTP :]"
         echo " Date après la re-synchronisation [Serveur NTP=$SERVEUR_NTP :]" >> $NOMFICHIERLOG
+        date 
         date >> $NOMFICHIERLOG
         
 }
