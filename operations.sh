@@ -116,17 +116,19 @@ synchroniserSurServeurNTP () {
         sudo rm -f /etc/ntp.conf
         sudo cp ./etc.ntp.conf /etc/ntp.conf
         sudo systemctl enable ntpd
-        sudo systemctl start ntpd
-        sudo systemctl daemon-reload
         
-        echo " Vérification du statut du service ntp avant la re-synchronisation au serveur NTP de référence du système : "
-        sudo systemctl status ntpd >> $NOMFICHIERLOG
+        echo " Vérification du statut du service ntp avant la re-synchronisation forcée au serveur NTP de référence du système : "
+        sudo systemctl stop ntpd && sudo systemctl status ntpd >> $NOMFICHIERLOG
+
         # Synchronisation forcée sur un sereur NTP particulier
         sudo ntpdate $SERVEUR_NTP >> $NOMFICHIERLOG
-
+        
         # Pour re-synchroniser l'horloge matérielle, sur l'horloge Linux qui vient d'être synchronisée.
         # Et ainsi conserver l'heure après un reboot, et ce y compris après ré-installation de l'OS.
         sudo hwclock --systohc >> $NOMFICHIERLOG
+        
+        echo " Vérification du statut du service ntp après re-démarrage du service NTPD : "
+        sudo systemctl start ntpd && sudo systemctl daemon-reload && sudo systemctl restart ntpd && sudo systemctl status ntpd >> $NOMFICHIERLOG
         
         echo " Vérification de la liste des serveurs NTP de référence du système : "
         sudo ntpq -p >> $NOMFICHIERLOG
