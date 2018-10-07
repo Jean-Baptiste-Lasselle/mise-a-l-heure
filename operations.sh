@@ -98,18 +98,27 @@ synchroniserSurServeurNTP () {
         # ---------------------------------------------------------------------------------------------------------------------------------------------
         echo "date avant la re-synchronisation [Serveur NTP=$SERVEUR_NTP :]" >> $NOMFICHIERLOG
         date >> $NOMFICHIERLOG
+        
         sudo which ntpdate
         sudo which ntp        
-        sudo yum install -y ntp
+        sudo yum install -y ntp ntpdate
         sudo ntpdate $SERVEUR_NTP
-        echo "date après la re-synchronisation [Serveur NTP=$SERVEUR_NTP :]" >> $NOMFICHIERLOG
-        date >> $NOMFICHIERLOG
+
         # pour re-synchroniser l'horloge matérielle, et ainsi conserver l'heure après un reboot, et ce y compris après ré-installation de l'OS.
         sudo hwclock --systohc
         # pour reconfifgurer le service NTP
         sudo cp ./etc.ntp.conf /etc/ntp.conf
         sudo systemctl restart ntp
         sudo systemctl daemon-reload
+        sudo systemctl enable ntp
+        
+        sudo systemctl restart ntp
+        echo " vérification de la liste des serveurs NTP de référence du système : "
+        sudo ntpq -p
+        sudo ntptrace
+        
+        echo "date après la re-synchronisation [Serveur NTP=$SERVEUR_NTP :]" >> $NOMFICHIERLOG
+        date >> $NOMFICHIERLOG
 }
 
 
