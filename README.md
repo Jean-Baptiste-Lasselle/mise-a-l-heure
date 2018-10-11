@@ -48,3 +48,20 @@ export URI_REPO_RECETTE=git@github.com:Jean-Baptiste-Lasselle/mise-a-l-heure.git
 # Références
 
 https://www.pool.ntp.org/en/use.html
+
+
+# TODO : configuration TIMEZONES
+
+Tout en notant que dans le cas des 4 OS prinicpaux supportés, la procédure à suivre est très similaire, reposant sur les fondamentaux UNIX / Linux : 
+
+* Pour CentOS : https://www.cyberciti.biz/faq/centos-linux-6-7-changing-timezone-command-line/
+* Pour Debian 6+ : https://wiki.debian.org/TimeZoneChanges 
+* Pour Ubuntu 12.04 LTS + : https://askubuntu.com/questions/323131/setting-timezone-from-terminal
+* Pour Alpine Linux 3.0.0 + : https://wiki.alpinelinux.org/wiki/Setting_the_timezone 
+
+
+ENfin, il faiudra automatiser de 2 façons : 
+* Pour une configuration dans le run
+* Pour une configuration dans le kickstart 
+
+
