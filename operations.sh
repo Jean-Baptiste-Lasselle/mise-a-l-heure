@@ -99,19 +99,22 @@ synchroniserSurServeurNTP () {
         echo "date avant la re-synchronisation [Serveur NTP=$SERVEUR_NTP :]" >> $NOMFICHIERLOG
         date >> $NOMFICHIERLOG
         
-        # On commence par désactiver le service NTP, s'il existe déjà.
-        sudo systemctl stop ntpd
-        sudo systemctl disable ntpd
         
-        sudo which ntpdate
-        sudo which ntpd
-        sudo which ntptrace
+        # sudo which ntpdate
+        # sudo which ntpd
+        # sudo which ntptrace
         
         
         # '/usr/sbin/ntptrace' est installé par 'ntp-perl'
-        sudo yum install -y ntp ntpdate ntp-perl
+        # sudo yum install -y ntp ntpdate ntp-perl
+        # je ne veux plus de ntp-trace, ni ntp-perl,je veu xsimplement cofngiurer le servie NTP
+        sudo yum remove -y ntp ntpdate
+        sudo yum install -y ntp ntpdate
         
         # Pour re-confifgurer le service NTP
+        # On commence par désactiver le service NTP, s'il existe déjà.
+        sudo systemctl stop ntpd
+        sudo systemctl disable ntpd
         
         sudo rm -f /etc/ntp.conf
         sudo cp ./etc.ntp.conf /etc/ntp.conf
