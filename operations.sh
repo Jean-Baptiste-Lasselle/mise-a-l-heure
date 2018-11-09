@@ -77,7 +77,7 @@ export SERVEUR_NTP=0.us.pool.ntp.org
 # --------------------------------------------------------------------------------------------------------------------------------------------
 # Cette fonction permet de re-synchroniser l'hôte docker sur un serveur NTP, sinon# certaines installations dépendantes
 # de téléchargements avec vérification de certtificat SSL
-synchroniserSurServeurNTP () {
+configurationNTP () {
         # ---------------------------------------------------------------------------------------------------------------------------------------------
         # ------        SYNCHRONSITATION SUR UN SERVEUR NTP PUBLIC (Y-en-a-til des gratuits dont je puisse vérifier le certificat SSL TLSv1.2 ?)
         # ---------------------------------------------------------------------------------------------------------------------------------------------
@@ -96,7 +96,7 @@ synchroniserSurServeurNTP () {
         #                         comprend un repository linux privé contenant tous les packes à installer, dont docker-ce.
         #
         # ---------------------------------------------------------------------------------------------------------------------------------------------
-        echo "date avant la re-synchronisation [Serveur NTP=$SERVEUR_NTP :]" >> $NOMFICHIERLOG
+        echo "date avant la configuration  NTP" >> $NOMFICHIERLOG
         date >> $NOMFICHIERLOG
         
         
@@ -137,13 +137,18 @@ synchroniserSurServeurNTP () {
         echo " Vérification de la liste des serveurs NTP de référence du système : " >> $NOMFICHIERLOG
         sudo ntpq -p
         sudo ntpq -p >> $NOMFICHIERLOG
-        sudo ntptrace
-        sudo ntptrace >> $NOMFICHIERLOG
+        # sudo ntptrace
+        # sudo ntptrace >> $NOMFICHIERLOG
         
-        echo " Date après la re-synchronisation [Serveur NTP=$SERVEUR_NTP :]"
-        echo " Date après la re-synchronisation [Serveur NTP=$SERVEUR_NTP :]" >> $NOMFICHIERLOG
+        echo " Date après la configuration  NTP"
+        echo " Date après la configuration  NTP" >> $NOMFICHIERLOG
         date 
         date >> $NOMFICHIERLOG
+        
+        echo " TimeZone après la configuration  NTP : ]"
+        echo " TimeZone après la configuration  NTP : ]" >> $NOMFICHIERLOG
+        ls -all /etc/localtime
+        ls -all /etc/localtime >> $NOMFICHIERLOG
         
 }
 
@@ -154,8 +159,8 @@ synchroniserSurServeurNTP () {
 ##############################################################################################################################################
 # --------------------------------------------------------------------------------------------------------------------------------------------
 
-echo " +++synchronistaion+ sur sereveur NTP  +  COMMENCEE  - " >> $NOMFICHIERLOG
+echo " +++configurationNTP+  COMMENCEE  - " >> $NOMFICHIERLOG
 
-synchroniserSurServeurNTP
+configurationNTP
 
-echo " +++synchronistaion+ sur sereveur NTP  +  TERMINEE  - " >> $NOMFICHIERLOG
+echo " +++configurationNTP+  TERMINEE  - " >> $NOMFICHIERLOG
