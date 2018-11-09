@@ -123,8 +123,8 @@ configurationNTP () {
         echo " Vérification du statut du service ntp avant la re-synchronisation forcée au serveur NTP de référence du système : "
         sudo systemctl stop ntpd && sudo systemctl status ntpd >> $NOMFICHIERLOG
 
-        # Synchronisation forcée sur un sereur NTP particulier
-        sudo ntpdate $SERVEUR_NTP >> $NOMFICHIERLOG
+        # pour bien commencer le run, on comence par faire une mise à jour sur les serveurs NTP configurés dans `/etc/ntp.conf`
+        sudo ntpd -gq
         
         # Pour re-synchroniser l'horloge matérielle, sur l'horloge Linux qui vient d'être synchronisée.
         # Et ainsi conserver l'heure après un reboot, et ce y compris après ré-installation de l'OS.
@@ -133,6 +133,7 @@ configurationNTP () {
         echo " Vérification du statut du service ntp après re-démarrage du service NTPD : " >> $NOMFICHIERLOG
         sudo systemctl start ntpd && sudo systemctl restart ntpd && sudo systemctl status ntpd >> $NOMFICHIERLOG
         
+
         echo " Vérification de la liste des serveurs NTP de référence du système : "
         echo " Vérification de la liste des serveurs NTP de référence du système : " >> $NOMFICHIERLOG
         sudo ntpq -p
